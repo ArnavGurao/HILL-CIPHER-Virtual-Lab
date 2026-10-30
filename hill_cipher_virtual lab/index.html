@@ -1,0 +1,1194 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Interactive Hill Cipher virtual cryptography laboratory using matrix operations.">
+  <title>Hill Cipher using Matrix Operations</title>
+  <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+  <header class="hero">
+    <div class="hero__content">
+      <p class="eyebrow">Virtual Cryptography Laboratory</p>
+      <h1>Hill Cipher using Matrix Operations</h1>
+      <p>
+        Learn the mathematics behind the Hill Cipher, follow the complete
+        encryption/decryption procedure, and run an interactive matrix-based simulation.
+      </p>
+    </div>
+  </header>
+
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Experiment navigation">
+      <div class="sidebar__title">
+        <!-- FlaskConical icon -->
+        <svg class="sidebar__flask" xmlns="http://www.w3.org/2000/svg" width="18" height="18" viewBox="0 0 24 24"
+          fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+          aria-hidden="true">
+          <path d="M10 2v7.31" />
+          <path d="M14 9.3V2" />
+          <path d="M8.79 9H15.2" />
+          <path d="M6.5 19.5 2 22h20l-4.5-2.5" />
+          <path d="M7 11.5 4.33 17c-.6 1.2.4 2.5 1.67 2.5h12c1.27 0 2.27-1.3 1.67-2.5L16.5 11.5" />
+        </svg>
+        Experiment Menu
+      </div>
+
+      <button class="nav-item active" data-target="aim">
+        <span class="nav-icon">◎</span>
+        <span>Aim & Objectives</span>
+      </button>
+
+      <button class="nav-item" data-target="theory">
+        <span class="nav-icon">
+          <!-- BookOpen icon -->
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M2 3h6a4 4 0 0 1 4 4v14a3 3 0 0 0-3-3H2z" />
+            <path d="M22 3h-6a4 4 0 0 0-4 4v14a3 3 0 0 1 3-3h7z" />
+          </svg>
+        </span>
+        <span>Theory</span>
+      </button>
+
+      <button class="nav-item" data-target="procedure">
+        <span class="nav-icon">
+          <!-- ListOrdered icon -->
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <line x1="10" y1="6" x2="21" y2="6" />
+            <line x1="10" y1="12" x2="21" y2="12" />
+            <line x1="10" y1="18" x2="21" y2="18" />
+            <path d="M4 6h1v4" />
+            <path d="M4 10h2" />
+            <path d="M6 18H4c0-1 2-2 2-3s-1-1.5-2-1" />
+          </svg>
+        </span>
+        <span>Procedure</span>
+      </button>
+
+      <button class="nav-item" data-target="simulation">
+        <span class="nav-icon">
+          <!-- Cpu icon -->
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="4" y="4" width="16" height="16" rx="2" />
+            <rect x="9" y="9" width="6" height="6" />
+            <line x1="9" y1="1" x2="9" y2="4" />
+            <line x1="15" y1="1" x2="15" y2="4" />
+            <line x1="9" y1="20" x2="9" y2="23" />
+            <line x1="15" y1="20" x2="15" y2="23" />
+            <line x1="20" y1="9" x2="23" y2="9" />
+            <line x1="20" y1="14" x2="23" y2="14" />
+            <line x1="1" y1="9" x2="4" y2="9" />
+            <line x1="1" y1="14" x2="4" y2="14" />
+          </svg>
+        </span>
+        <span>Simulation</span>
+      </button>
+
+      <button class="nav-item" data-target="tests">
+        <span class="nav-icon">
+          <!-- ClipboardCheck icon -->
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <rect x="8" y="2" width="8" height="4" rx="1" ry="1" />
+            <path d="M16 4h2a2 2 0 0 1 2 2v14a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V6a2 2 0 0 1 2-2h2" />
+            <path d="m9 14 2 2 4-4" />
+          </svg>
+        </span>
+        <span>Test Records</span>
+      </button>
+
+      <button class="nav-item" data-target="quiz">
+        <span class="nav-icon">
+          <!-- CircleHelp icon -->
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <circle cx="12" cy="12" r="10" />
+            <path d="M9.09 9a3 3 0 0 1 5.83 1c0 2-3 3-3 3" />
+            <line x1="12" y1="17" x2="12.01" y2="17" />
+          </svg>
+        </span>
+        <span>Quiz</span>
+      </button>
+
+
+      <button class="nav-item" data-target="references">
+        <span class="nav-icon">
+          <!-- BookMarked icon -->
+          <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" viewBox="0 0 24 24" fill="none"
+            stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">
+            <path d="M4 19.5A2.5 2.5 0 0 1 6.5 17H20" />
+            <path d="M6.5 2H20v20H6.5A2.5 2.5 0 0 1 4 19.5v-15A2.5 2.5 0 0 1 6.5 2z" />
+            <polyline points="10 2 10 9 12.5 7.5 15 9 15 2" />
+          </svg>
+        </span>
+        <span>References</span>
+      </button>
+
+      <div class="sidebar__tip">
+        <strong>Tip</strong>
+        <span>Use the menu to view one experiment segment at a time.</span>
+      </div>
+    </aside>
+
+    <main class="content-area">
+      <!-- ================= AIM & OBJECTIVES ================= -->
+      <section id="aim" class="content-section active" aria-labelledby="aim-title">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">Experiment overview</p>
+            <h2 id="aim-title">Aim & Objectives</h2>
+          </div>
+          <span class="section-number">01</span>
+        </div>
+
+        <article class="aim-banner interactive-lift">
+          <div class="aim-icon" aria-hidden="true">
+            <!-- Target icon -->
+            <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none"
+              stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="12" r="10" />
+              <circle cx="12" cy="12" r="6" />
+              <circle cx="12" cy="12" r="2" />
+            </svg>
+          </div>
+          <div>
+            <h3>Aim</h3>
+            <p>
+              To implement the Hill Cipher for encryption and decryption using matrix operations and modular arithmetic.
+            </p>
+          </div>
+        </article>
+
+        <h3 class="subheading">Learning Objectives</h3>
+        <div class="objective-grid">
+          <article class="objective-card">
+            <span class="objective-number">01</span>
+            <h4>Understand the Cipher</h4>
+            <p>Explain how the Hill Cipher encrypts groups of letters using linear algebra.</p>
+          </article>
+
+          <article class="objective-card">
+            <span class="objective-number">02</span>
+            <h4>Perform Encryption</h4>
+            <p>Compute C = K × P (mod 26) for every plaintext block.</p>
+          </article>
+
+          <article class="objective-card">
+            <span class="objective-number">03</span>
+            <h4>Check Invertibility</h4>
+            <p>Verify that gcd(det(K), 26) = 1 before attempting decryption.</p>
+          </article>
+
+          <article class="objective-card">
+            <span class="objective-number">04</span>
+            <h4>Perform Decryption</h4>
+            <p>Calculate K⁻¹ modulo 26 and recover plaintext using P = K⁻¹ × C (mod 26).</p>
+          </article>
+        </div>
+
+        <div class="learning-strip">
+          <div>
+            <strong>By the end of the experiment</strong>
+            <span>You should be able to manually verify the simulation with matrix calculations.</span>
+          </div>
+          <button class="ghost-btn jump-btn" data-jump="theory">Continue to Theory →</button>
+        </div>
+      </section>
+
+      <!-- ================= THEORY ================= -->
+      <section id="theory" class="content-section" aria-labelledby="theory-title">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">Concept explorer</p>
+            <h2 id="theory-title">Theory</h2>
+          </div>
+          <span class="section-number">02</span>
+        </div>
+
+        <div class="theory-hero">
+          <div class="theory-portrait-wrap">
+            <img class="theory-portrait" src="assets/lester-hill.png"
+              alt="Portrait used for the Lester S. Hill history section">
+            <div class="portrait-caption">
+              <strong>Lester S. Hill</strong>
+              <span>Hill Cipher introduced in 1929</span>
+            </div>
+          </div>
+
+          <div class="theory-intro">
+            <span class="pill">Polygraphic substitution cipher</span>
+            <h3>Cryptography through Linear Algebra</h3>
+            <p>
+              The Hill Cipher encrypts a block of letters together rather than
+              replacing each letter independently. A plaintext block is represented
+              as a vector and multiplied by a square key matrix modulo 26.
+            </p>
+
+            <div class="equation-showcase">
+              <div>
+                <span>Encryption</span>
+                <strong>C = K × P (mod 26)</strong>
+              </div>
+              <div>
+                <span>Decryption</span>
+                <strong>P = K⁻¹ × C (mod 26)</strong>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="theory-tabs" role="tablist" aria-label="Theory topics">
+          <button class="theory-tab active" data-theory="concept">Core Concept</button>
+          <button class="theory-tab" data-theory="history">History</button>
+          <button class="theory-tab" data-theory="math">Mathematics</button>
+          <button class="theory-tab" data-theory="security">Security</button>
+        </div>
+
+        <div class="theory-panel active" data-theory-panel="concept">
+          <div class="theory-card-grid">
+            <article class="theory-card">
+              <span class="theory-card-icon">Aa</span>
+              <h4>Alphabet Mapping</h4>
+              <p>Letters are represented as integers so matrix arithmetic can be applied.</p>
+              <div class="mini-formula">A=0 · B=1 · ... · Z=25</div>
+            </article>
+
+            <article class="theory-card">
+              <span class="theory-card-icon">▦</span>
+              <h4>Block Processing</h4>
+              <p>A 2×2 key encrypts two letters at a time; a 3×3 key would encrypt three at a time.</p>
+            </article>
+
+            <article class="theory-card">
+              <span class="theory-card-icon">%</span>
+              <h4>Modulo 26</h4>
+              <p>Results are reduced modulo 26 so every value stays within the alphabet range 0–25.</p>
+            </article>
+
+            <article class="theory-card">
+              <span class="theory-card-icon">K</span>
+              <h4>Key Matrix</h4>
+              <p>The square matrix acts as the secret transformation applied to each plaintext vector.</p>
+            </article>
+          </div>
+        </div>
+
+        <div class="theory-panel" data-theory-panel="history">
+          <div class="timeline">
+            <article>
+              <span class="timeline-year">1929</span>
+              <div>
+                <h4>Hill Cipher introduced</h4>
+                <p>
+                  American mathematician Lester S. Hill published the cipher in
+                  <em>The American Mathematical Monthly</em> and demonstrated the use
+                  of matrix algebra for cryptography.
+                </p>
+              </div>
+            </article>
+
+            <article>
+              <span class="timeline-year">1970s</span>
+              <div>
+                <h4>Modern block ciphers emerge</h4>
+                <p>
+                  Practical cryptography moved toward algorithms that combine
+                  substitution, permutation, diffusion, and non-linear operations.
+                </p>
+              </div>
+            </article>
+
+            <article>
+              <span class="timeline-year">1977</span>
+              <div>
+                <h4>DES standardized</h4>
+                <p>DES became an important standardized symmetric block cipher for practical systems.</p>
+              </div>
+            </article>
+
+            <article>
+              <span class="timeline-year">2001</span>
+              <div>
+                <h4>AES standardized</h4>
+                <p>AES became the modern NIST symmetric block-encryption standard.</p>
+              </div>
+            </article>
+          </div>
+
+          <div class="note-box">
+            <strong>Important historical wording:</strong>
+            The Hill Cipher was not directly “replaced” by one specific algorithm.
+            Modern cryptography evolved toward stronger standardized block ciphers such as DES and later AES.
+          </div>
+        </div>
+
+        <div class="theory-panel" data-theory-panel="math">
+          <div class="math-concepts">
+            <article class="math-concept">
+              <h4>2×2 Key Matrix</h4>
+              <pre>K = [ a  b ]
+    [ c  d ]</pre>
+            </article>
+
+            <article class="math-concept">
+              <h4>Determinant</h4>
+              <div class="large-formula">det(K) = ad − bc</div>
+            </article>
+
+            <article class="math-concept">
+              <h4>Invertibility condition</h4>
+              <div class="large-formula">gcd(det(K), 26) = 1</div>
+            </article>
+
+            <article class="math-concept">
+              <h4>Inverse Matrix</h4>
+              <pre>K⁻¹ = det(K)⁻¹ × [  d  −b ]
+                    [ −c   a ]  (mod 26)</pre>
+            </article>
+          </div>
+
+          <details class="interactive-detail">
+            <summary>Why does gcd(det(K), 26) have to equal 1?</summary>
+            <p>
+              Decryption requires the multiplicative inverse of the determinant
+              modulo 26. Such an inverse exists only when the determinant and 26
+              are relatively prime. If the gcd is not 1, K⁻¹ does not exist modulo 26.
+            </p>
+          </details>
+        </div>
+
+        <div class="theory-panel" data-theory-panel="security">
+          <div class="compare-grid">
+            <article class="compare-card advantage">
+              <h4>Advantages</h4>
+              <ul>
+                <li>Encrypts multiple letters at once.</li>
+                <li>Demonstrates diffusion across a block.</li>
+                <li>Connects linear algebra with cryptography.</li>
+                <li>Can be extended to larger square matrices.</li>
+              </ul>
+            </article>
+
+            <article class="compare-card limitation">
+              <h4>Limitations</h4>
+              <ul>
+                <li>The encryption transformation is linear.</li>
+                <li>Not every matrix is a valid key.</li>
+                <li>Padding may be required.</li>
+                <li>It is unsuitable for modern secure communication.</li>
+              </ul>
+            </article>
+          </div>
+
+          <article class="attack-card">
+            <div class="attack-icon">!</div>
+            <div class="attack-body">
+              <h4>Why can it be compromised?</h4>
+              <p class="attack-lead">
+                With enough known plaintext and matching ciphertext, an attacker can
+                construct matrix equations and solve for the unknown key. This
+                known-plaintext weakness is a consequence of the cipher's linear structure.
+              </p>
+            </div>
+          </article>
+
+          <!-- ── Expanded cryptanalysis section ── -->
+          <section class="kpa-section" aria-label="Known-plaintext attack explanation">
+
+            <div class="kpa-label">Known-Plaintext Attack</div>
+
+            <p class="kpa-intro">
+              The Hill Cipher resists simple single-letter frequency analysis because letters are
+              encrypted in blocks. However, its encryption is a <strong>linear transformation</strong>,
+              which creates a critical weakness.
+            </p>
+            <p class="kpa-intro">
+              If an attacker obtains enough corresponding plaintext and ciphertext blocks, those blocks
+              can be arranged into matrices and used to recover the secret key.
+            </p>
+
+            <!-- Core formula -->
+            <div class="kpa-formula-box">
+              <div class="kpa-formula-row">
+                <span class="kpa-formula-label">Encryption</span>
+                <code class="kpa-formula">C = KP (mod 26)</code>
+              </div>
+              <div class="kpa-formula-divider"></div>
+              <p class="kpa-derivation">
+                If <strong>P</strong> is invertible modulo 26, multiply both sides by
+                <strong>P⁻¹</strong> on the right:
+              </p>
+              <div class="kpa-steps-inline">
+                <div class="kpa-step-line">CP⁻¹ = KPP⁻¹</div>
+                <div class="kpa-step-line kpa-step-line--result">∴ K = CP⁻¹ (mod 26)</div>
+              </div>
+            </div>
+
+            <!-- Attack flow -->
+            <div class="kpa-flow" aria-label="Attack steps">
+              <div class="kpa-flow-node">Known Plaintext<br><small>+ Ciphertext</small></div>
+              <div class="kpa-flow-arrow">↓</div>
+              <div class="kpa-flow-node">Form P and C<br><small>as matrices</small></div>
+              <div class="kpa-flow-arrow">↓</div>
+              <div class="kpa-flow-node">Find P⁻¹<br><small>mod 26</small></div>
+              <div class="kpa-flow-arrow">↓</div>
+              <div class="kpa-flow-node kpa-flow-node--key">K = CP⁻¹<br><small>mod 26</small></div>
+              <div class="kpa-flow-arrow">↓</div>
+              <div class="kpa-flow-node kpa-flow-node--result">Secret Key<br><small>Recovered</small></div>
+            </div>
+
+            <!-- Progressive-disclosure worked example -->
+            <button class="kpa-toggle-btn" id="kpaToggleBtn" aria-expanded="false" aria-controls="kpaWorkedExample">
+              <span class="kpa-toggle-icon" aria-hidden="true">▶</span>
+              View Worked Example
+            </button>
+
+            <div class="kpa-worked-example" id="kpaWorkedExample" hidden>
+
+              <h5 class="kpa-worked-heading">Worked Example</h5>
+              <p class="kpa-worked-intro">
+                An attacker observes the plaintext–ciphertext pairs
+                <strong>HE → HI</strong> and <strong>LP → AT</strong>.
+                The key K is unknown. Can they recover it?
+              </p>
+
+              <!-- Step A -->
+              <div class="kpa-calc-card">
+                <div class="kpa-calc-label">Step A — Convert known pairs to column vectors</div>
+                <div class="kpa-pair-grid">
+                  <div>
+                    <div class="kpa-pair-head">Plaintext</div>
+                    <pre class="kpa-matrix-pre">H = 7,  E = 4      L = 11,  P = 15
+
+     ⎡ 7 ⎤          ⎡11⎤
+P₁ = ⎢   ⎥    P₂ = ⎢  ⎥
+     ⎣ 4 ⎦          ⎣15⎦</pre>
+                  </div>
+                  <div>
+                    <div class="kpa-pair-head">Ciphertext</div>
+                    <pre class="kpa-matrix-pre">H = 7,  I = 8      A = 0,  T = 19
+
+     ⎡ 7 ⎤          ⎡ 0⎤
+C₁ = ⎢   ⎥    C₂ = ⎢  ⎥
+     ⎣ 8 ⎦          ⎣19⎦</pre>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Step B -->
+              <div class="kpa-calc-card">
+                <div class="kpa-calc-label">Step B — Form the plaintext matrix P and ciphertext matrix C</div>
+                <p class="kpa-calc-note">
+                  Each known block becomes a <strong>column</strong> (matching the column-vector convention
+                  C&nbsp;=&nbsp;KP):
+                </p>
+                <div class="kpa-matrix-row">
+                  <div class="kpa-matrix-wrap">
+                    <span class="kpa-matrix-name">P =</span>
+                    <pre class="kpa-matrix-pre kpa-matrix-box">⎡ 7   11 ⎤
+⎢        ⎥
+⎣ 4   15 ⎦</pre>
+                  </div>
+                  <div class="kpa-matrix-wrap">
+                    <span class="kpa-matrix-name">C =</span>
+                    <pre class="kpa-matrix-pre kpa-matrix-box">⎡ 7    0 ⎤
+⎢        ⎥
+⎣ 8   19 ⎦</pre>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Step C -->
+              <div class="kpa-calc-card">
+                <div class="kpa-calc-label">Step C — Find P⁻¹ (mod 26)</div>
+                <pre class="kpa-matrix-pre">det(P) = (7 × 15) − (11 × 4)
+       = 105 − 44
+       = 61
+
+61 mod 26 = 9
+
+9⁻¹ mod 26 = 3   (because 9 × 3 = 27 ≡ 1 mod 26)
+
+        ⎡ 15  −11 ⎤
+adj(P) = ⎢         ⎥
+        ⎣ −4    7 ⎦
+
+P⁻¹ = 3 × adj(P) mod 26
+
+     = ⎡ 3×15 mod 26   3×(−11) mod 26 ⎤
+       ⎣ 3×(−4) mod 26    3×7 mod 26   ⎦
+
+     = ⎡ 45 mod 26   (−33) mod 26 ⎤
+       ⎣ (−12) mod 26    21 mod 26  ⎦</pre>
+                <div class="kpa-matrix-row">
+                  <div class="kpa-matrix-wrap">
+                    <span class="kpa-matrix-name">P⁻¹ =</span>
+                    <pre class="kpa-matrix-pre kpa-matrix-box kpa-matrix-box--result">⎡ 19   19 ⎤
+⎢         ⎥
+⎣ 14   21 ⎦</pre>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Step D -->
+              <div class="kpa-calc-card">
+                <div class="kpa-calc-label">Step D — Recover K = CP⁻¹ (mod 26)</div>
+                <pre class="kpa-matrix-pre">     ⎡ 7    0 ⎤ ⎡ 19   19 ⎤
+K =  ⎢        ⎥ ⎢         ⎥   (mod 26)
+     ⎣ 8   19 ⎦ ⎣ 14   21 ⎦
+
+Row 1:
+  K[0][0] = 7×19 + 0×14 = 133;  133 mod 26 = 3
+  K[0][1] = 7×19 + 0×21 = 133;  133 mod 26 = 3
+
+Row 2:
+  K[1][0] = 8×19 + 19×14 = 418;  418 mod 26 = 2
+  K[1][1] = 8×19 + 19×21 = 551;  551 mod 26 = 5</pre>
+                <div class="kpa-matrix-row">
+                  <div class="kpa-matrix-wrap">
+                    <span class="kpa-matrix-name">K =</span>
+                    <pre class="kpa-matrix-pre kpa-matrix-box kpa-matrix-box--result">⎡ 3   3 ⎤
+⎢       ⎥
+⎣ 2   5 ⎦</pre>
+                  </div>
+                </div>
+                <div class="kpa-recovered-banner">✓ Secret key successfully recovered from known plaintext–ciphertext
+                  pairs.</div>
+              </div>
+
+            </div><!-- /kpa-worked-example -->
+
+            <!-- Security takeaway -->
+            <div class="kpa-takeaway">
+              <div class="kpa-takeaway-label">Security Takeaway</div>
+              <p>
+                The Hill Cipher is vulnerable to known-plaintext attacks because its encryption
+                is a linear transformation. With enough suitable plaintext–ciphertext pairs,
+                an attacker may reconstruct the secret key matrix.
+              </p>
+              <p>
+                This is why the classical Hill Cipher is valuable for learning cryptographic
+                principles but is not suitable for modern secure communication.
+              </p>
+            </div>
+
+          </section>
+        </div>
+      </section>
+
+      <!-- ================= PROCEDURE ================= -->
+      <section id="procedure" class="content-section" aria-labelledby="procedure-title">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">Algorithm & flowcharts</p>
+            <h2 id="procedure-title">Procedure</h2>
+          </div>
+          <span class="section-number">03</span>
+        </div>
+
+        <div class="procedure-switch">
+          <button class="procedure-mode active" data-procedure-mode="encryption">Encryption Procedure</button>
+          <button class="procedure-mode" data-procedure-mode="decryption">Decryption Procedure</button>
+        </div>
+
+        <div class="procedure-panel active" data-procedure-panel="encryption">
+          <h3>Encryption Flowchart</h3>
+          <p class="flowchart-help">Scroll horizontally on smaller screens.</p>
+
+          <div class="flow-scroll">
+            <div class="flowchart">
+              <div class="flow-node terminal">START</div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-node input">Enter plaintext<br>& key matrix K</div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-node process">Normalize text<br>and pad if required</div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-node process">Map A–Z<br>to 0–25</div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-node process">Split into<br>column vectors P</div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-node process emphasis">Compute<br>C = K × P mod 26</div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-node process">Map 0–25<br>back to A–Z</div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-node output">Display<br>ciphertext</div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-node terminal">END</div>
+            </div>
+          </div>
+
+          <div class="procedure-columns">
+            <article>
+              <h3>Step-by-Step Encryption Procedure</h3>
+              <ol class="numbered-procedure">
+                <li><span>1</span>
+                  <div><strong>Read inputs</strong>
+                    <p>Accept plaintext and a square key matrix. This implementation uses a 2×2 matrix.</p>
+                  </div>
+                </li>
+                <li><span>2</span>
+                  <div><strong>Normalize plaintext</strong>
+                    <p>Convert to uppercase and remove unsupported characters.</p>
+                  </div>
+                </li>
+                <li><span>3</span>
+                  <div><strong>Pad if necessary</strong>
+                    <p>For a 2×2 key, append X when the cleaned text has odd length.</p>
+                  </div>
+                </li>
+                <li><span>4</span>
+                  <div><strong>Convert letters to numbers</strong>
+                    <p>Apply A=0, B=1, ..., Z=25.</p>
+                  </div>
+                </li>
+                <li><span>5</span>
+                  <div><strong>Build plaintext vectors</strong>
+                    <p>Group each pair into P = [p₁, p₂]ᵀ.</p>
+                  </div>
+                </li>
+                <li><span>6</span>
+                  <div><strong>Multiply by key</strong>
+                    <p>For each block, compute K × P.</p>
+                  </div>
+                </li>
+                <li><span>7</span>
+                  <div><strong>Apply modulo 26</strong>
+                    <p>Reduce every resulting element to a value from 0–25.</p>
+                  </div>
+                </li>
+                <li><span>8</span>
+                  <div><strong>Convert back to letters</strong>
+                    <p>Join all encrypted blocks to obtain the ciphertext.</p>
+                  </div>
+                </li>
+              </ol>
+            </article>
+
+            <article>
+              <h3>Encryption Algorithm</h3>
+              <pre class="algorithm-box">INPUT: plaintext P, 2×2 key matrix K
+
+1. P ← uppercase letters only
+2. IF length(P) is odd:
+       P ← P + "X"
+3. Map P from letters to values 0..25
+4. Split values into 2-element column vectors
+5. FOR each vector v:
+       c ← (K × v) mod 26
+       append c to encrypted values
+6. Map encrypted values 0..25 back to A..Z
+7. OUTPUT ciphertext</pre>
+            </article>
+          </div>
+        </div>
+
+        <div class="procedure-panel" data-procedure-panel="decryption">
+          <h3>Decryption Flowchart</h3>
+          <p class="flowchart-help">The decision step explicitly verifies whether the key is invertible modulo 26.</p>
+
+          <div class="flow-scroll">
+            <div class="flowchart decryption-flow">
+              <div class="flow-node terminal">START</div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-node input">Enter ciphertext<br>& key matrix K</div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-node process">Compute<br>det(K)</div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-node decision">gcd(det(K),26)<br>= 1 ?</div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-node process">Find det(K)⁻¹<br>mod 26</div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-node process">Compute<br>K⁻¹ mod 26</div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-node process">Map & split<br>ciphertext vectors C</div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-node process emphasis">Compute<br>P = K⁻¹ × C mod 26</div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-node output">Display<br>plaintext</div>
+              <div class="flow-arrow">→</div>
+              <div class="flow-node terminal">END</div>
+            </div>
+          </div>
+
+          <div class="decision-note">
+            <strong>If the decision is NO:</strong>
+            stop and report “Key is not invertible modulo 26; decryption cannot be performed.”
+          </div>
+
+          <div class="procedure-columns">
+            <article>
+              <h3>Step-by-Step Decryption Procedure</h3>
+              <ol class="numbered-procedure">
+                <li><span>1</span>
+                  <div><strong>Read ciphertext and key</strong>
+                    <p>Use the same key matrix that was used for encryption.</p>
+                  </div>
+                </li>
+                <li><span>2</span>
+                  <div><strong>Calculate determinant</strong>
+                    <p>For K=[[a,b],[c,d]], compute det(K)=ad−bc.</p>
+                  </div>
+                </li>
+                <li><span>3</span>
+                  <div><strong>Test invertibility</strong>
+                    <p>Verify gcd(det(K),26)=1. Stop if the condition fails.</p>
+                  </div>
+                </li>
+                <li><span>4</span>
+                  <div><strong>Find determinant inverse</strong>
+                    <p>Compute det(K)⁻¹ modulo 26.</p>
+                  </div>
+                </li>
+                <li><span>5</span>
+                  <div><strong>Find inverse key matrix</strong>
+                    <p>Compute K⁻¹ modulo 26.</p>
+                  </div>
+                </li>
+                <li><span>6</span>
+                  <div><strong>Convert ciphertext</strong>
+                    <p>Map letters to 0–25 and create column vectors C.</p>
+                  </div>
+                </li>
+                <li><span>7</span>
+                  <div><strong>Recover plaintext vectors</strong>
+                    <p>Compute P = K⁻¹ × C (mod 26).</p>
+                  </div>
+                </li>
+                <li><span>8</span>
+                  <div><strong>Convert values to letters</strong>
+                    <p>Join recovered blocks to obtain the plaintext.</p>
+                  </div>
+                </li>
+              </ol>
+            </article>
+
+            <article>
+              <h3>Decryption Algorithm</h3>
+              <pre class="algorithm-box">INPUT: ciphertext C, 2×2 key matrix K
+
+1. d ← det(K)
+2. IF gcd(d, 26) ≠ 1:
+       OUTPUT "Invalid / non-invertible key"
+       STOP
+3. dInv ← modularInverse(d, 26)
+4. KInv ← inverseMatrix(K, dInv) mod 26
+5. Map C from letters to values 0..25
+6. Split values into 2-element column vectors
+7. FOR each cipher vector c:
+       p ← (KInv × c) mod 26
+       append p to plaintext values
+8. Map plaintext values 0..25 back to A..Z
+9. OUTPUT plaintext</pre>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= SIMULATION ================= -->
+      <section id="simulation" class="content-section" aria-labelledby="simulation-title">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">Interactive implementation</p>
+            <h2 id="simulation-title">Hill Cipher Simulation</h2>
+          </div>
+          <span class="section-number">04</span>
+        </div>
+
+        <div id="simulationChooser" class="simulation-chooser">
+          <p class="chooser-eyebrow">Choose an operation</p>
+          <h3>What do you want to do?</h3>
+          <p>Select one mode. Only the selected simulation will be displayed.</p>
+
+          <div class="choice-grid">
+            <button class="choice-card" data-sim-choice="encrypt">
+              <span class="choice-icon">🔐</span>
+              <strong>Encryption</strong>
+              <small>Plaintext → Matrix operations → Ciphertext</small>
+              <span class="choice-action">Open Encryption →</span>
+            </button>
+
+            <button class="choice-card" data-sim-choice="decrypt">
+              <span class="choice-icon">🔓</span>
+              <strong>Decryption</strong>
+              <small>Ciphertext → Inverse matrix → Plaintext</small>
+              <span class="choice-action">Open Decryption →</span>
+            </button>
+          </div>
+        </div>
+
+        <!-- ENCRYPTION SIMULATION -->
+        <div id="encryptionSimulation" class="simulation-panel hidden">
+          <div class="simulation-panel-header">
+            <div>
+              <span class="mode-badge">Encryption Mode</span>
+              <h3>Encrypt Plaintext</h3>
+            </div>
+            <button class="ghost-btn change-mode-btn">← Change operation</button>
+          </div>
+
+          <div class="input-card">
+            <div class="form-grid">
+              <label class="field">
+                <span>Plaintext</span>
+                <input id="plaintext" type="text" value="HELP" placeholder="Example: HELP">
+                <small>Letters only are used. Spaces and symbols are removed.</small>
+              </label>
+
+              <div class="field">
+                <span>2×2 Key Matrix</span>
+                <div class="matrix-input" aria-label="Encryption 2 by 2 key matrix">
+                  <input id="k00" type="number" value="3" aria-label="row 1 column 1">
+                  <input id="k01" type="number" value="3" aria-label="row 1 column 2">
+                  <input id="k10" type="number" value="2" aria-label="row 2 column 1">
+                  <input id="k11" type="number" value="5" aria-label="row 2 column 2">
+                </div>
+              </div>
+            </div>
+
+            <div class="actions">
+              <button id="encryptBtn" class="primary-btn">Encrypt & Build Steps</button>
+              <button id="exampleBtn" class="secondary-btn">Load HELP Example</button>
+              <button id="resetBtn" class="secondary-btn">Reset</button>
+            </div>
+
+            <p id="message" class="message" aria-live="polite"></p>
+          </div>
+
+          <div id="summaryCard" class="summary-card hidden">
+            <div><span>Processed Plaintext</span><strong id="cleanText">—</strong></div>
+            <div><span>Numeric Form</span><strong id="numericText">—</strong></div>
+            <div><span>Key Matrix</span><strong id="keyText">—</strong></div>
+            <div class="summary-highlight"><span>Ciphertext</span><strong id="cipherText">—</strong></div>
+          </div>
+
+          <div id="simulationCard" class="walkthrough-card hidden">
+            <div class="walkthrough-heading">
+              <div>
+                <p class="section-kicker">Interactive walkthrough</p>
+                <h3>Encryption Steps</h3>
+              </div>
+              <div class="progress-box">
+                <span id="stepCounter">Step 1 of 1</span>
+                <div class="progress-track">
+                  <div id="progressBar" class="progress-bar"></div>
+                </div>
+              </div>
+            </div>
+
+            <article id="stepPanel" class="step-panel"></article>
+
+            <div class="simulation-controls">
+              <button id="prevBtn" class="secondary-btn">← Previous</button>
+              <button id="playBtn" class="primary-btn">▶ Play</button>
+              <button id="nextBtn" class="secondary-btn">Next →</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- DECRYPTION SIMULATION -->
+        <div id="decryptionSimulation" class="simulation-panel hidden">
+          <div class="simulation-panel-header">
+            <div>
+              <span class="mode-badge">Decryption Mode</span>
+              <h3>Decrypt Ciphertext & Check Key Invertibility</h3>
+            </div>
+            <button class="ghost-btn change-mode-btn">← Change operation</button>
+          </div>
+
+          <div class="decryption-grid">
+            <article class="input-card">
+              <h4>Key Matrix & Invertibility</h4>
+              <div class="matrix-input" aria-label="Decryption 2 by 2 key matrix">
+                <input type="number" id="dec-a" value="3" aria-label="decryption row 1 column 1">
+                <input type="number" id="dec-b" value="3" aria-label="decryption row 1 column 2">
+                <input type="number" id="dec-c" value="2" aria-label="decryption row 2 column 1">
+                <input type="number" id="dec-d" value="5" aria-label="decryption row 2 column 2">
+              </div>
+
+              <div class="actions">
+                <button id="checkKeyBtn" class="secondary-btn">Check Key</button>
+              </div>
+
+              <div id="key-result" class="key-result" aria-live="polite"></div>
+            </article>
+
+            <article class="input-card">
+              <h4>Ciphertext Input</h4>
+              <label class="field">
+                <span>Ciphertext</span>
+                <input id="ciphertext-input" type="text" value="HIAT" placeholder="Example: HIAT">
+                <small>For a 2×2 key, ciphertext must contain an even number of letters.</small>
+              </label>
+
+              <div class="actions">
+                <button id="startDecryptBtn" class="primary-btn">Start Decryption</button>
+                <button id="useEncryptionBtn" class="secondary-btn">Use Last Encryption</button>
+              </div>
+
+              <p id="decryption-message" class="message" aria-live="polite"></p>
+            </article>
+          </div>
+
+          <div id="decryptionWalkthrough" class="walkthrough-card">
+            <div class="walkthrough-heading">
+              <div>
+                <p class="section-kicker">Interactive walkthrough</p>
+                <h3>Decryption Steps</h3>
+              </div>
+
+              <div class="progress-box">
+                <span id="decStepCounter">Step 0 of 8</span>
+                <div class="progress-track">
+                  <div id="decryption-progress" class="progress-bar"></div>
+                </div>
+              </div>
+            </div>
+
+            <article id="decryption-step" class="step-panel">
+              <p>Click <strong>Start Decryption</strong> to begin.</p>
+            </article>
+
+            <div class="simulation-controls">
+              <button id="prevDecryptBtn" class="secondary-btn">← Previous</button>
+              <button id="playDecryptBtn" class="primary-btn">▶ Play</button>
+              <button id="nextDecryptBtn" class="secondary-btn">Next →</button>
+              <button id="resetDecryptBtn" class="secondary-btn">Reset</button>
+            </div>
+          </div>
+
+          <div class="final-result-card">
+            <span>Decryption Result</span>
+            <strong id="decryption-result">—</strong>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= TEST RECORDS ================= -->
+      <section id="tests" class="content-section" aria-labelledby="tests-title">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">Recorded experiment runs</p>
+            <h2 id="tests-title">Test Records</h2>
+          </div>
+          <span class="section-number">05</span>
+        </div>
+
+        <div class="record-summary">
+          <div>
+            <span>Total encryptions</span>
+            <strong id="encryptionCount">0</strong>
+          </div>
+          <div>
+            <span>Total decryptions</span>
+            <strong id="decryptionCount">0</strong>
+          </div>
+          <div>
+            <span>Storage</span>
+            <strong>Browser session</strong>
+          </div>
+          <button id="clearRecordsBtn" class="danger-btn">Clear Records</button>
+        </div>
+
+        <article class="records-card">
+          <div class="records-title">
+            <div>
+              <span class="record-type encrypt">Encryption</span>
+              <h3>Encryption Test Records</h3>
+            </div>
+            <p>Every successful encryption performed in the simulator is recorded here.</p>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Plaintext</th>
+                  <th>Processed Text</th>
+                  <th>Key Used</th>
+                  <th>Encrypted Text</th>
+                  <th>Time</th>
+                </tr>
+              </thead>
+              <tbody id="encryptionRecordsBody">
+                <tr class="empty-row">
+                  <td colspan="6">No encryption tests recorded yet.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+
+        <article class="records-card">
+          <div class="records-title">
+            <div>
+              <span class="record-type decrypt">Decryption</span>
+              <h3>Decryption Test Records</h3>
+            </div>
+            <p>Every successful decryption records the ciphertext, key, and recovered output.</p>
+          </div>
+
+          <div class="table-wrap">
+            <table>
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Encrypted Text</th>
+                  <th>Key Used</th>
+                  <th>Decrypted Output</th>
+                  <th>Key Status</th>
+                  <th>Time</th>
+                </tr>
+              </thead>
+              <tbody id="decryptionRecordsBody">
+                <tr class="empty-row">
+                  <td colspan="6">No decryption tests recorded yet.</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </article>
+
+        <div class="reference-tests">
+          <h3>Reference Test Cases</h3>
+          <div class="reference-test-grid">
+            <article>
+              <strong>Test 1</strong>
+              <span>HELP + [[3,3],[2,5]]</span>
+              <b>Expected ciphertext: HIAT</b>
+            </article>
+            <article>
+              <strong>Test 2</strong>
+              <span>HIAT + [[3,3],[2,5]]</span>
+              <b>Expected plaintext: HELP</b>
+            </article>
+            <article>
+              <strong>Test 3</strong>
+              <span>HELLO + [[3,3],[2,5]]</span>
+              <b>Padding X is added before encryption.</b>
+            </article>
+          </div>
+        </div>
+      </section>
+
+      <!-- ================= QUIZ ================= -->
+      <section id="quiz" class="content-section">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">SELF ASSESSMENT</p>
+            <h2>Quiz &amp; Self Assessment</h2>
+          </div>
+        </div>
+
+        <!-- Quiz header meta -->
+        <div class="quiz-meta-bar">
+          <span class="quiz-meta-pill">10 Questions</span>
+
+        </div>
+
+        <!-- Question navigator dots -->
+        <div class="quiz-nav-dots" id="quizNavDots" aria-label="Question navigator"></div>
+
+        <!-- Progress bar -->
+        <div class="quiz-progress-shell">
+          <span id="quizProgressLabel" class="quiz-progress-label">Question 1 of 10</span>
+          <div class="quiz-progress-track">
+            <div id="quizProgressBar" class="quiz-progress-fill"></div>
+          </div>
+        </div>
+
+        <!-- One-at-a-time question view -->
+        <div id="quizStage" class="quiz-stage"></div>
+
+        <!-- Navigation buttons -->
+        <div class="quiz-nav-row" id="quizNavRow">
+          <button id="quizPrevBtn" class="ghost-btn" disabled>&#8592; Previous</button>
+          <button id="quizNextBtn" class="primary-btn">Next &#8594;</button>
+          <button id="quizSubmitBtn" class="primary-btn" style="display:none">Submit Quiz</button>
+        </div>
+
+        <!-- Unanswered warning -->
+        <p id="quizWarning" class="quiz-warning" aria-live="polite"></p>
+
+        <!-- Score card (hidden until submission) -->
+        <div id="quizScoreCard" class="quiz-score-card hidden">
+          <div class="quiz-score-inner">
+            <p class="quiz-score-label">Score</p>
+            <p id="quizScoreText" class="quiz-score-number">0 / 10</p>
+            <p id="quizScorePercent" class="quiz-score-percent">0%</p>
+            <p id="quizScoreMessage" class="quiz-score-message"></p>
+          </div>
+          <button id="retakeQuizBtn" class="secondary-btn quiz-retry-btn">&#8635; Retry Quiz</button>
+        </div>
+
+        <!-- Post-submission review -->
+        <div id="quizReview" class="quiz-review hidden"></div>
+      </section>
+
+
+
+
+
+      <!-- ================= REFERENCES ================= -->
+      <section id="references" class="content-section" aria-labelledby="references-title">
+        <div class="section-heading">
+          <div>
+            <p class="section-kicker">Sources</p>
+            <h2 id="references-title">References</h2>
+          </div>
+          <span class="section-number">06</span>
+        </div>
+
+        <div class="reference-list">
+          <article>
+            <span>01</span>
+            <div>
+              <strong>Hill, Lester S. (1929)</strong>
+              <p>“Cryptography in an Algebraic Alphabet.” <em>The American Mathematical Monthly</em>, 36(6), 306–312.
+              </p>
+            </div>
+          </article>
+
+          <article>
+            <span>02</span>
+            <div>
+              <strong>NIST — FIPS 197</strong>
+              <p>Advanced Encryption Standard (AES), used here for modern cryptography context.</p>
+            </div>
+          </article>
+
+          <article>
+            <span>03</span>
+            <div>
+              <strong>Cryptography and Network Security texts</strong>
+              <p>Standard references for classical ciphers, modular arithmetic, matrix encryption, and cryptanalysis.
+              </p>
+            </div>
+          </article>
+
+          <article>
+            <span>04</span>
+            <div>
+              <strong>Introduction to Cryptography And Network Security - Behrouz A. Forouzan</strong>
+              <p>Used as a reference for Hill Cipher cryptanalysis and known-plaintext attacks.
+              </p>
+            </div>
+          </article>
+
+
+        </div>
+
+      </section>
+    </main>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>
